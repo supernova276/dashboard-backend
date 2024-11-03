@@ -31,25 +31,13 @@ app.use("/general",generalRoutes)
 const PORT=process.env.PORT | 3000
 let MONGO_URL=process.env.MONGO_URL
 
-let MONGO_PASSWORD=process.env.MONGO_PASSWORD
-const indexOfPass=MONGO_URL.indexOf('4')
+console.log("urlllllll",MONGO_URL)
 
-if(indexOfPass !==-1){
+mongoose.connect(MONGO_URL).then(()=>{
 
-    console.log("index",indexOfPass)
-    console.log("password",MONGO_PASSWORD)
-    MONGO_URL=MONGO_URL.slice(0,indexOfPass)+encodeURIComponent(MONGO_PASSWORD)+MONGO_URL.slice(indexOfPass+15)
-    console.log(MONGO_URL)
-}
-mongoose.connect(MONGO_URL,
-    {
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-
-    }
-).then(()=>{
-
-    app.listen(PORT, ()=>{console.log("port connected successfuly")})
+    app.listen(PORT,"0.0.0.0",()=>{
+        console.log("your app is running on port 3000")
+    })
 
 }).catch((error)=>{
     console.log("error",error)
