@@ -2,7 +2,7 @@ import React,{useState} from 'react'
 import {Box,useMediaQuery } from "@mui/material"
 import {Outlet} from "react-router-dom"
 import NavBar from '../../components/NavBar'
-import Sidebar from '../../components/SideBar'
+import Sidebar from '../../components/Sidebar'
 
 
 const Layout = () => {
@@ -25,7 +25,7 @@ const Layout = () => {
     isSidebarOpen={isSidebarOpen}
     setIssidebarOpen={setIssidebarOpen}
     />
-    {/* <Outlet/> */}
+    <Outlet/>
    </Box>
    </Box>
   )
