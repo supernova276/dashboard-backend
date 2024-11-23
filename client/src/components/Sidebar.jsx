@@ -31,8 +31,11 @@ import {
   AdminPanelSettingsOutlined,
   TrendingUpOutlined,
   PieChartOutlined,
+  ExpandMore,
+  ExpandLess
 } from "@mui/icons-material"
 import { useNavigate } from 'react-router-dom'
+
 
 
 
@@ -95,31 +98,41 @@ const navItems = [
     },
   ];
 
-const Sidebar=({drawerWidth, isSideBarOpen, setIsSidebarOpen, isNonMobile})=>{
+const Sidebar=({drawerWidth, isSidebarOpen, setIssidebarOpen, isNonMobile})=>{
 
-    const {pathName}= useLocation()
+    const {pathname}= useLocation()
     const [active,setActive]=useState("");
     const theme=useTheme()
     const navigate=useNavigate()
+    const [expandState,setExpandState]=useState(false)
 
-    console.log("pathhhhhhhhh",pathName)
 
     // wehn the path name changes correct url is set to active to detrmine what page we are on
     useEffect(()=>{
-        setActive(pathName)
-    },[pathName])
+        setActive(pathname)
+    },[pathname])
+
+
+    const handleExpandToggle = (text) => {
+      setExpandState((prevState) => ({
+        ...prevState,
+        [text]: !prevState[text],
+      }));
+    };
 
     return  <Box component="nav">
 
-        {isSideBarOpen && (
+        {isSidebarOpen && (
+
             <Drawer 
-            open={isSideBarOpen}
-            onclose={()=>setIsSidebarOpen(false)}
+            open={isSidebarOpen}
+            onClose={()=>setIssidebarOpen(false)}
             variant="persistent"
             anchor="left"
 
             sx={{
-                "& .MuiDrawer-paper": {
+                   width: drawerWidth,
+                   "& .MuiDrawer-paper": {
                     color: theme.palette.secondary[200],
                     backgroundColor: theme.palette.background.alt,
                     boxSixing: "border-box",
@@ -136,22 +149,35 @@ const Sidebar=({drawerWidth, isSideBarOpen, setIsSidebarOpen, isNonMobile})=>{
                                 bleh
                             </Typography>
                         </Box>
-                        { ! isNonMobile && (
-                            <IconButton onClick={()=>setIsSidebarOpen(!isSideBarOpen)}>
+
+                        {console.log("mobileeeeeee",isNonMobile)}
+                        {/* {  !isNonMobile && ( */}
+                            <IconButton onClick={()=>setIssidebarOpen(!isSidebarOpen)}>
                                 <ChevronLeft/>
                             </IconButton>
-                        )}
+                        {/* )} */}
                     </FlexBetween>
                 </Box>
                 <List>
                     {
                         navItems.map(({text,icon})=>{
-                            if(!icon){
+
                                 if (!icon) {
+                                  // console.log("expandddddd",expand)
                                     return (
-                                      <Typography key={text} sx={{ m: "2.25rem 0 1rem 3rem" }}>
-                                        {text}
-                                      </Typography>
+                                    <ListItem>
+                                      
+                                      <ListItemButton onClick={() => handleExpandToggle(text)}>
+                                      <ListItemText key={text}>{text}</ListItemText>
+                              
+                                      {expandState[text] ? (
+                                        <ExpandMore />
+                                      ) : (
+                                        <ExpandLess />
+                                      )}
+                                    </ListItemButton>
+                                    </ListItem>
+                                      
                                     );
                                   }
                                   const lctext=text.toLowerCase()
@@ -179,26 +205,32 @@ const Sidebar=({drawerWidth, isSideBarOpen, setIsSidebarOpen, isNonMobile})=>{
                        
                        <ListItemIcon
                         sx={{
-                          ml: "2rem",
+                          ml: "0.5rem",
                           color:
                             active === lctext
                               ? theme.palette.primary[600]
                               : theme.palette.secondary[200],
+                              fontSize:"2rem"
                         }}
                       >
                         {icon}
+
                       </ListItemIcon>
 
+                      {console.log("activeeeeeeeeee",active,lctext)}
+
                       <ListItemText primary={text} />
-                      {active === lctext && (
+                      {
+                      
+                      active === lctext && (
                         <ChevronRightOutlined sx={{ ml: "auto" }} />
-                      )}
+                      ) && (console.log("hellooooooooooo"))
+                      }
 
                       </ListItemButton>
-
+                        
                                   
                       </ListItem>)
-                            }
                         })
                     }
                 </List>
