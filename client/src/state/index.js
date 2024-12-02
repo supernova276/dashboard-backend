@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState={
-    mode:"dark"
+    mode:"dark",
 }
 export const globalThemeSlice=createSlice({
     name:"global",

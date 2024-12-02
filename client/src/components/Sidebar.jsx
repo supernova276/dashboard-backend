@@ -150,12 +150,9 @@ const Sidebar=({drawerWidth, isSidebarOpen, setIssidebarOpen, isNonMobile})=>{
                             </Typography>
                         </Box>
 
-                        {console.log("mobileeeeeee",isNonMobile)}
-                        {/* {  !isNonMobile && ( */}
                             <IconButton onClick={()=>setIssidebarOpen(!isSidebarOpen)}>
                                 <ChevronLeft/>
                             </IconButton>
-                        {/* )} */}
                     </FlexBetween>
                 </Box>
                 <List>
@@ -163,7 +160,6 @@ const Sidebar=({drawerWidth, isSidebarOpen, setIssidebarOpen, isNonMobile})=>{
                         navItems.map(({text,icon})=>{
 
                                 if (!icon) {
-                                  // console.log("expandddddd",expand)
                                     return (
                                     <ListItem>
                                       
