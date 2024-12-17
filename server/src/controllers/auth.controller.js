@@ -1,8 +1,8 @@
 const jwt=require("jsonwebtoken")
 const bcrypt=require("bcrypt")
 require("dotenv").config()
-// const {SECRET_TOKEN}=require("../../configs/auth.config")
-const User=require('../models/user.model')
+const {SECRET_TOKEN}=require("../../configs/auth.config")
+const User=require('../../../client/src/models/user.model')
 
 export const userSignup=async(req,res)=>{
 
@@ -57,5 +57,7 @@ export const userLogin=async(req,res)=>{
         })
 
 }
-catch(err){}
+catch(err){
+    console.log("errorrrr",err)
+}
 }
