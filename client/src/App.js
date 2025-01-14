@@ -8,6 +8,8 @@ import { BrowserRouter } from "react-router-dom";
 import  Dashboard from "scenes/dashboard/Dashboard"
 import Layout from "scenes/layout/Layout";
 import { Navigate,Route, Routes} from "react-router-dom";
+import Signup from "scenes/signup/Signup";
+import Login from "scenes/login/Login"
 
 const App=()=> {
   const mode=useSelector((state)=>state.global.mode)
@@ -19,9 +21,10 @@ const App=()=> {
     <ThemeProvider theme={theme}>
       <CssBaseline/>  
       <Routes>
+        <Route path='/' element={<Login/>}></Route>
+        <Route path='/signup' element={<Signup/>}></Route>
         <Route element={<Layout/>}>
-        <Route path="/" element={<Navigate to ="/dashboard" replace/>}></Route>
-        <Route path="/dashboard" element={<Dashboard/>}></Route>
+        <Route path="/dashboard/" element={<Dashboard/>}></Route>
         </Route>
       </Routes>
     </ThemeProvider>

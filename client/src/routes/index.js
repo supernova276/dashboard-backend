@@ -5,7 +5,6 @@ const routes=()=>{
         <>
             <Routes>
                 <Route path="/" element={<LandingPage/>}/>
-
             </Routes>
         </>
     )
