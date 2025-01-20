@@ -5,7 +5,7 @@ import React from 'react'
 export const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
     reducerPath: "adminApi",
-    tagTypes: ["User"],
+    tagTypes: ["User","Products","Customers"],
     endpoints: (build) => ({
         signupUser: build.mutation({  
             query: (data) => ({       
@@ -23,9 +23,27 @@ export const api = createApi({
             }),
             invalidatesTags: ["User"]
         }),
-    })
+        getProducts: build.query({
+            query:()=>({
+                url:'/client/get-product/',
+                method:'GET'
+            }),
+            invalidatesTags:["Products"]
+        }),
+
+        getCustomers:build.query({
+            query:()=>({
+                url:'/client/get-customers',
+                method:'GET'
+            }),
+            invalidatesTags:["Customers"]
+        })
+    }),
+
 })
 export const {
     useSignupUserMutation,
     useLoginUserMutation,
+    useGetProductsQuery,
+    useGetCustomersQuery
 }=api 

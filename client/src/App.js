@@ -10,6 +10,8 @@ import Layout from "scenes/layout/Layout";
 import { Navigate,Route, Routes} from "react-router-dom";
 import Signup from "scenes/signup/Signup";
 import Login from "scenes/login/Login"
+import Products from "scenes/products/Products";
+import Customers from "scenes/customers/Customers";
 
 const App=()=> {
   const mode=useSelector((state)=>state.global.mode)
@@ -25,6 +27,8 @@ const App=()=> {
         <Route path='/signup' element={<Signup/>}></Route>
         <Route element={<Layout/>}>
         <Route path="/dashboard/" element={<Dashboard/>}></Route>
+        <Route path="/products/" element={<Products/>}></Route>
+        <Route path="/customers/" element={<Customers/>}></Route>
         </Route>
       </Routes>
     </ThemeProvider>

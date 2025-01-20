@@ -44,7 +44,7 @@ const Signup = () => {
       // Call the mutation function returned by the hook
       const response = await signupUser(formData).unwrap();
       console.log('Signup successful:', response);
-      navigate('/login/')
+      navigate('/')
       
     } catch (error) {
       console.error('Failed to signup:', error);

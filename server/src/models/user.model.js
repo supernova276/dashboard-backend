@@ -25,12 +25,12 @@ const userSchema=mongoose.Schema({
     state:String,
     country:String,
     occupation:String,
-    PhoneNumber:String,
+    phoneNumber:String,
     transactions:Array,
     role:{
         type:String,
         enum:["user","admin","superadmin"],
-        default:"admin"
+        default:"user"
     }
 },
 {timestamps:true} //this will create updated at and created at dates
