@@ -4,6 +4,7 @@ import { SECRET_TOKEN } from '../../configs/auth.config.js';
 import User from "../models/user.model.js";
 import Product from "../models/product.model.js";
 import ProductStat from "../models/productStats.model.js";
+import Transaction from "../models/transactions.model.js";
 export const userSignup=async(req,res)=>{
 
     const {name,password,email,city,state,country,occupation,phoneNumber}=req.body
@@ -150,3 +151,20 @@ export const addProductStats = async (req, res) => {
       res.status(500).json({ message: "Error adding product stats", error });
     }
   };
+
+export const createTransactions=async(req,res)=>{
+ try{ const {userId,cost,products}=req.body
+  const newTransaction=new Transaction({
+    userId,
+    cost,
+    products
+  })
+  console.log("newwwwww",newTransaction)
+  await newTransaction.save()
+  return res.status(201).send({'msg':"txn created successfuly"})
+}
+catch(error){
+  console.log("error",error)
+  res.status(500).json({message:"Error adding txn",error})
+}
+}
