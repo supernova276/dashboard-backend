@@ -12,6 +12,7 @@ import Signup from "scenes/signup/Signup";
 import Login from "scenes/login/Login"
 import Products from "scenes/products/Products";
 import Customers from "scenes/customers/Customers";
+import Transactions from "scenes/transactions/Transactions";
 
 const App=()=> {
   const mode=useSelector((state)=>state.global.mode)
@@ -29,6 +30,7 @@ const App=()=> {
         <Route path="/dashboard/" element={<Dashboard/>}></Route>
         <Route path="/products/" element={<Products/>}></Route>
         <Route path="/customers/" element={<Customers/>}></Route>
+        <Route path="/transactions/" element={<Transactions/>}></Route>
         </Route>
       </Routes>
     </ThemeProvider>

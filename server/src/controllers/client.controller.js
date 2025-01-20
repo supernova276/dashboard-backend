@@ -1,5 +1,6 @@
 import Product from "../models/product.model.js";
 import ProductStat from "../models/productStats.model.js";
+import Transaction from "../models/transactions.model.js";
 import User from "../models/user.model.js"
 
 export const getProduct=async(req,res)=>{
@@ -50,4 +51,45 @@ export const getCustomers=async(req,res)=>{
           message:"Error fetching product",error
         })
       }
+}
+
+export const getTransactions=async(req,res)=>{
+  try{
+
+    const {page=1, pageSize=20,sort=null, search=" "}=req.params
+
+    const generateSort = () => {
+
+      const sortParsed = JSON.parse(sort);
+      const sortFormatted = {
+        [sortParsed.field]: (sortParsed.sort === "asc" ? 1 : -1),
+      };
+
+      return sortFormatted;
+    };
+    const sortFormatted = Boolean(sort) ? generateSort() : {};
+
+    const transactions = await Transaction.find({
+      $or: [
+        { cost: { $regex: new RegExp(search, "i") } },
+        { userId: { $regex: new RegExp(search, "i") } },
+      ],
+    })
+      .sort(sortFormatted)
+      .skip((page-1) * pageSize)
+      .limit(pageSize);
+
+    const total = await Transaction.countDocuments({
+      name: { $regex: search, $options: "i" },    //this i makes the search case sensitive
+    });
+
+    res.status(200).json({
+      transactions,
+      total,
+    });
+
+  }
+  catch(error){
+    return res.status(500).send({messagae: "Error fetching product"})
+  }
 }
