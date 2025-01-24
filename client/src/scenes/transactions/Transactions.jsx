@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, useTheme } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid ,GridToolbar} from "@mui/x-data-grid";
 import { useGetTransactionsQuery } from "state/api";
 import Header from "components/Header";
 import CustomToolbarDataGrid from "components/CustomToolbarDataGrid";

@@ -13,6 +13,10 @@ import Login from "scenes/login/Login"
 import Products from "scenes/products/Products";
 import Customers from "scenes/customers/Customers";
 import Transactions from "scenes/transactions/Transactions";
+import Overview from "scenes/overview/Overview"
+import Daily from "scenes/daily/Daily"
+import Breakdown from "scenes/breakdown/Breakdown"
+import Monthly from "scenes/monthly/Monthly"
 
 const App=()=> {
   const mode=useSelector((state)=>state.global.mode)
@@ -31,6 +35,10 @@ const App=()=> {
         <Route path="/products/" element={<Products/>}></Route>
         <Route path="/customers/" element={<Customers/>}></Route>
         <Route path="/transactions/" element={<Transactions/>}></Route>
+        <Route path="/overview" element={<Overview/>}></Route>
+        <Route path="/daily" element={<Daily/>}></Route>
+        <Route path="/monthly" element={<Monthly/>}></Route>
+        <Route path="/breakdown" element={<Breakdown/>}></Route>
         </Route>
       </Routes>
     </ThemeProvider>

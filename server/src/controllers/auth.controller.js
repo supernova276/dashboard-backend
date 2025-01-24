@@ -5,6 +5,7 @@ import User from "../models/user.model.js";
 import Product from "../models/product.model.js";
 import ProductStat from "../models/productStats.model.js";
 import Transaction from "../models/transactions.model.js";
+import OverallStat from "../models/overallStats.model.js";
 export const userSignup=async(req,res)=>{
 
     const {name,password,email,city,state,country,occupation,phoneNumber}=req.body
@@ -168,3 +169,36 @@ catch(error){
   res.status(500).json({message:"Error adding txn",error})
 }
 }
+
+export const createOverallStat = async (req, res) => {
+  try {
+    const {
+      totalCustomers,
+      yearlySalesTotal,
+      yearlyTotalSoldUnits,
+      year,
+      monthlyData,
+      dailyData,
+      salesByCategory,
+    } = req.body;
+
+    const newOverallStat = new OverallStat({
+      totalCustomers,
+      yearlySalesTotal,
+      yearlyTotalSoldUnits,
+      year,
+      monthlyData,
+      dailyData,
+      salesByCategory,
+    });
+
+    await newOverallStat.save();
+
+    return res.status(201).json({ msg: "Overall stats created successfully" });
+  } catch (error) {
+    console.error("Error creating overall stats:", error);
+    return res
+      .status(500)
+      .json({ message: "Error adding overall stats", error });
+  }
+};

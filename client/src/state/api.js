@@ -5,7 +5,7 @@ import React from 'react'
 export const api = createApi({
     baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
     reducerPath: "adminApi",
-    tagTypes: ["User","Products","Customers","Transactions"],
+    tagTypes: ["User","Products","Customers","Transactions","Sales"],
     endpoints: (build) => ({
         signupUser: build.mutation({  
             query: (data) => ({       
@@ -47,8 +47,18 @@ export const api = createApi({
                 params:{page,pageSize,sort,search}
             }),
             invalidatesTags:["Transactions"]
-        })
+        }),
+        getSales: build.query({
+            query:()=>({
+                url:'/sales/get-overall-stats/',
+                method:'GET'
+            }),
+            invalidatesTags:["Sales"]
+        }),
     }),
+
+
+
 
 })
 export const {
@@ -56,5 +66,6 @@ export const {
     useLoginUserMutation,
     useGetProductsQuery,
     useGetCustomersQuery,
-    useGetTransactionsQuery
+    useGetTransactionsQuery,
+    useGetSalesQuery
 }=api 
