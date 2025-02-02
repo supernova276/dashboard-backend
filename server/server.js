@@ -33,6 +33,9 @@ app.use("/sales",salesRoutes)
 app.use("/general",generalRoutes)
 app.use("/auth",authRoutes)
 
+import { dataTransaction } from './data/index.js'
+import Transaction from './src/models/transactions.model.js'
+
 const PORT=process.env.PORT || 3000
 let MONGO_URL=process.env.MONGO_URL
 
@@ -41,6 +44,8 @@ mongoose.connect(MONGO_URL).then(()=>{
     app.listen(PORT,"0.0.0.0",()=>{
         console.log(`your app is running on port ${PORT}`)
     })
+
+    // Transaction.insertMany(dataTransaction)
 
 }).catch((error)=>{
     console.log("error",error)

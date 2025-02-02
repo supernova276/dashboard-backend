@@ -12,7 +12,7 @@ const userSlice = createSlice({
     initialState,
     reducers: {
         setCredentials: (state, action) => {
-            const { user, token } = action.payload;
+            const { user } = action.payload;
             state.user = user;
             // state.token = token;
             state.isAuthenticated = true;
@@ -20,7 +20,7 @@ const userSlice = createSlice({
         logout: (state) => {
             state.user = null;
             // state.token = null;
-            state.isAuthenticated = false;
+            state.isAuthenticated = false;  
         }
     }
 });
@@ -29,7 +29,7 @@ export const { setCredentials, logout } = userSlice.actions;
 
 // Selectors
 export const selectCurrentUser = (state) => state.user.user;
-// export const selectCurrentToken = (state) => state.user.token;
+export const selectCurrentToken = (state) => state.user.user?.accesstoken;
 export const selectIsAuthenticated = (state) => state.user.isAuthenticated;
 
 export default userSlice.reducer;

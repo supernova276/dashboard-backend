@@ -2,7 +2,6 @@
 import OverallStat from '../models/overallStats.model.js'
 
 export const getOverallStats = async (req, res) => {
-    console.log("jelloooo")
     try {
       const stats = await OverallStat.find();
       return res.status(200).json(stats[0]);

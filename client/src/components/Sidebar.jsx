@@ -61,10 +61,10 @@ const navItems = [
       text: "Transactions",
       icon: <ReceiptLongOutlined />,
     },
-    {
-      text: "Geography",
-      icon: <PublicOutlined />,
-    },
+    // {
+    //   text: "Geography",
+    //   icon: <PublicOutlined />,
+    // },
     {
       text: "Sales",
       icon: null,
@@ -93,10 +93,10 @@ const navItems = [
       text: "Admin",
       icon: <AdminPanelSettingsOutlined />,
     },
-    {
-      text: "Performance",
-      icon: <TrendingUpOutlined />,
-    },
+    // {
+    //   text: "Performance",
+    //   icon: <TrendingUpOutlined />,
+    // },
   ];
 
 const Sidebar=({data,drawerWidth, isSidebarOpen, setIssidebarOpen, isNonMobile})=>{

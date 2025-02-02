@@ -1,12 +1,28 @@
 import {createApi,fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import React from 'react'
+import { selectCurrentUser } from 'state/user';
+import { useSelector } from 'react-redux';
 
+
+// const accessToken = useSelector(selectCurrentUser);
 
 export const api = createApi({
-    baseQuery: fetchBaseQuery({ baseUrl: process.env.REACT_APP_BASE_URL }),
-    reducerPath: "adminApi",
-    tagTypes: ["User","Products","Customers","Transactions","Sales"],
-    endpoints: (build) => ({
+    baseQuery: fetchBaseQuery({ 
+        baseUrl: process.env.REACT_APP_BASE_URL,
+        prepareHeaders: (headers, { getState }) => {
+          // Access the state directly instead of using useSelector
+          const token = getState()?.user.user?.accesstoken;
+          if (token) {
+            headers.set('accesstoken', token); // Use lowercase to match middleware
+          } else {
+            console.error('No token found in state');
+          }
+          
+          return headers;
+        },
+      }),
+      reducerPath: "adminApi",
+      tagTypes: ["User", "Products", "Customers", "Transactions", "Sales", "Admins", "Dashboard"],
+      endpoints: (build) => ({
         signupUser: build.mutation({  
             query: (data) => ({       
                 url: '/auth/signup/',
@@ -26,7 +42,7 @@ export const api = createApi({
         getProducts: build.query({
             query:()=>({
                 url:'/client/get-product/',
-                method:'GET'
+                method:'GET',
             }),
             invalidatesTags:["Products"]
         }),
@@ -55,6 +71,22 @@ export const api = createApi({
             }),
             invalidatesTags:["Sales"]
         }),
+
+        getAdmins: build.query({
+            query:()=>({
+                url:'/management/get-admins/',
+                method:'GET'
+            }),
+            invalidatesTags:["Admins"]
+        }),
+
+        getDashboard: build.query({
+            query:()=>({
+                url:'/auth/get-dashboard',
+                method:'GET'
+            }),
+            invalidatesTags:["Dashboard"]
+        }),
     }),
 
 
@@ -67,5 +99,7 @@ export const {
     useGetProductsQuery,
     useGetCustomersQuery,
     useGetTransactionsQuery,
-    useGetSalesQuery
+    useGetSalesQuery,
+    useGetAdminsQuery,
+    useGetDashboardQuery
 }=api 

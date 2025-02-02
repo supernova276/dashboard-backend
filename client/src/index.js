@@ -34,6 +34,8 @@ const store = configureStore({
   middleware: (getDefault) => getDefault().concat(api.middleware)
 });
 
+console.log("configureeree",store.getState())
+
 const persistor = persistStore(store);
 
 setupListeners(store.dispatch);

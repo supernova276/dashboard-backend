@@ -53,43 +53,55 @@ export const getCustomers=async(req,res)=>{
       }
 }
 
-export const getTransactions=async(req,res)=>{
-  try{
+export const getTransactions = async (req, res) => {
+  try {
+    // Extract query parameters with default values
+    const { page = 1, pageSize = 20, sort = null, search = "" } = req.query;
 
-    const {page=1, pageSize=20,sort=null, search=" "}=req.params
+    // Ensure `page` and `pageSize` are positive integers
+    const pageNumber = Math.max(1, parseInt(page, 10)); // Default to 1 if invalid
+    const pageSizeNumber = Math.max(1, parseInt(pageSize, 10)); // Default to 1 if invalid
 
+    // Generate sorting object if `sort` parameter is provided
     const generateSort = () => {
-
-      const sortParsed = JSON.parse(sort);
-      const sortFormatted = {
-        [sortParsed.field]: (sortParsed.sort === "asc" ? 1 : -1),
-      };
-
-      return sortFormatted;
+      try {
+        const sortParsed = JSON.parse(sort);
+        return { [sortParsed.field]: sortParsed.sort === "asc" ? 1 : -1 };
+      } catch (error) {
+        console.error("Error parsing sort parameter:", error);
+        return {}; // Default to no sorting if parsing fails
+      }
     };
-    const sortFormatted = Boolean(sort) ? generateSort() : {};
 
-    const transactions = await Transaction.find({
+    const sortFormatted = sort ? generateSort() : {};
+
+    // Build the search query
+    const searchQuery = {
       $or: [
         { cost: { $regex: new RegExp(search, "i") } },
         { userId: { $regex: new RegExp(search, "i") } },
       ],
-    })
+    };
+
+    // Fetch transactions with pagination and sorting
+    const transactions = await Transaction.find(searchQuery)
       .sort(sortFormatted)
-      .skip((page-1) * pageSize)
-      .limit(pageSize);
+      .skip((pageNumber - 1) * pageSizeNumber)
+      .limit(pageSizeNumber);
 
-    const total = await Transaction.countDocuments({
-      name: { $regex: search, $options: "i" },    //this i makes the search case sensitive
-    });
+    // Count total documents matching the search query
+    const total = await Transaction.countDocuments(searchQuery);
 
+    // Respond with paginated results and total count
     res.status(200).json({
       transactions,
       total,
     });
-
+  } catch (error) {
+    console.error("Error in getTransactions:", error);
+    res.status(500).json({
+      message: "Error fetching transactions",
+      error: error.message || "Unknown error",
+    });
   }
-  catch(error){
-    return res.status(500).send({messagae: "Error fetching product"})
-  }
-}
+};
